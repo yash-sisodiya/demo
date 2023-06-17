@@ -1,0 +1,21 @@
+.card {
+    box-shadow: 0px 0px 4px #287B6C;
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 10px 20px;
+    .cardTitle {
+        font-size: 14px;
+        color: #11182A;
+        padding: 5px 0px;
+    }
+
+    .value {
+        background: linear-gradient(180deg, #087F69 0%, #173933 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-fill-color: transparent;
+        font-size: 24px;
+        font-weight: 700;
+    }
+}
