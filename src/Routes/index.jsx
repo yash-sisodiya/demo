@@ -2,6 +2,8 @@ import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 import PersonalLoanEMICalculator from "../loan-calculator";
 import "./index.scss";
 import CurrencyConvertor from "../currency-convertor";
+import Login from "../Auth/Login";
+import Signup from "../Auth/Signup";
 function RouterOutlet() {
   return (
     <div className="wrapper">
@@ -20,6 +22,8 @@ function RouterOutlet() {
             element={<PersonalLoanEMICalculator />}
           />
           <Route path="currency-converter" element={<CurrencyConvertor />} />
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Signup />} />
         </Routes>
       </Router>{" "}
     </div>
