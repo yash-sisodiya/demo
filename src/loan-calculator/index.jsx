@@ -10,19 +10,41 @@ import moment from "moment";
 import "./calculator.scss";
 import { TextField } from "@mui/material";
 import StatsCard from "../Components/Stats-card";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+
 const PersonalLoanEMICalculator = () => {
-  const [loanAmount, setLoanAmount] = useState(100000);
-  const [interestRate, setInterestRate] = useState(6.5);
-  const [loanTenure, setLoanTenure] = useState(15);
   const [emi, setEmi] = useState(0);
   const [totalInterestPaid, setTotalInterestPaid] = useState(0);
   const [totalAmountPaid, setTotalAmountPaid] = useState(0);
   const [loanData, setLoanData] = useState([]);
 
+  const formik = useFormik({
+    initialValues: {
+      loanAmount: "",
+      interestRate: "",
+      loanTenure: "",
+    },
+    validationSchema: Yup.object({
+      loanAmount: Yup.number()
+        .min(1, "Loan amount must be greater than 0")
+        .required("Loan amount is required"),
+      interestRate: Yup.number()
+        .min(0, "Interest rate must be greater than or equal to 0")
+        .required("Interest rate is required"),
+      loanTenure: Yup.number()
+        .min(1, "Loan tenure must be greater than 0")
+        .required("Loan tenure is required"),
+    }),
+    onSubmit: (values) => {
+      calculateEMI(values);
+    },
+  });
+
   const calculateEMI = () => {
-    const principal = parseFloat(loanAmount);
-    const rateOfInterest = parseFloat(interestRate) / 100 / 12;
-    const time = parseFloat(loanTenure);
+    const principal = parseFloat(formik.values.loanAmount);
+    const rateOfInterest = parseFloat(formik.values.interestRate) / 100 / 12;
+    const time = parseFloat(formik.values.loanTenure);
 
     const emiValue =
       (principal * rateOfInterest * Math.pow(1 + rateOfInterest, time)) /
@@ -58,33 +80,53 @@ const PersonalLoanEMICalculator = () => {
     <div className="calculator">
       <div className="calculatorWrapper">
         <div className="title">Personal Loan EMI Calculator</div>
-        <div className="inputWrapper">
-          <TextField
-            label="Loan Amount"
-            variant="outlined"
-            type="number"
-            value={loanAmount}
-            onChange={(e) => setLoanAmount(e.target.value)}
-          />
-          <TextField
-            label="Interest Rate"
-            variant="outlined"
-            type="number"
-            step="0.01"
-            value={interestRate}
-            onChange={(e) => setInterestRate(e.target.value)}
-          />
-          <TextField
-            label="Loan Tenure (in months)"
-            variant="outlined"
-            type="number"
-            value={loanTenure}
-            onChange={(e) => setLoanTenure(e.target.value)}
-          />
-          <button onClick={calculateEMI} className="submitButton">
-            Calculate
-          </button>
-        </div>
+        <form onSubmit={formik.handleSubmit} autoComplete="off" method="POST">
+          <div className="inputWrapper">
+            <TextField
+              label="Loan Amount"
+              variant="outlined"
+              type="number"
+              name={"loanAmount"}
+              onChange={formik.handleChange}
+              value={formik.values.loanAmount}
+              helperText={
+                formik.touched.loanAmount && formik.errors.loanAmount
+                  ? formik.errors.loanAmount
+                  : null
+              }
+            />
+            <TextField
+              label="Interest Rate"
+              variant="outlined"
+              type="number"
+              step="0.01"
+              name={"interestRate"}
+              onChange={formik.handleChange}
+              value={formik.values.interestRate}
+              helperText={
+                formik.touched.interestRate && formik.errors.interestRate
+                  ? formik.errors.interestRate
+                  : null
+              }
+            />
+            <TextField
+              label="Loan Tenure (in months)"
+              variant="outlined"
+              type="number"
+              name={"loanTenure"}
+              onChange={formik.handleChange}
+              value={formik.values.loanTenure}
+              helperText={
+                formik.touched.loanTenure && formik.errors.loanTenure
+                  ? formik.errors.loanTenure
+                  : null
+              }
+            />
+            <button type="submit" className="submitButton">
+              Calculate
+            </button>
+          </div>
+        </form>
         {emi > 0 && (
           <div>
             <div className="inputWrapper">
