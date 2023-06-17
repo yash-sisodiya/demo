@@ -4,19 +4,15 @@ import "./index.scss";
 import CurrencyConvertor from "../currency-convertor";
 import Login from "../Auth/Login";
 import Signup from "../Auth/Signup";
+import Home from "../Home";
+import Header from "../Components/Header";
 function RouterOutlet() {
   return (
     <div className="wrapper">
       <Router>
+        <Header />
         <Routes>
-          <Route
-            path="/"
-            element={
-              <h1 className="text-xxxxxxl shadow-E1 border-xs border-light-primary-800">
-                Home Page
-              </h1>
-            }
-          />
+          <Route path="/" element={<Home />} />
           <Route
             path="personal-loan-emi-calculator"
             element={<PersonalLoanEMICalculator />}
