@@ -31,7 +31,7 @@ const Signup = () => {
       email: yup.string().email("Invalid Email").required("Email is Required"),
       password: yup
         .string()
-        .min(6, "Password must be atleast 6 characters")
+        .min(8, "Password must be atleast 8 characters")
         .max(15, "Must be 15 characters or less")
         .required("Password is Required")
         .matches(/[0-9]/, "Password requires a number")
@@ -40,6 +40,7 @@ const Signup = () => {
         .matches(/[^\w]/, "Password requires a symbol"),
       cpassword: yup
         .string()
+        .required("Confirm Password is Required")
         .oneOf([yup.ref("password")], "Must match confirm password"),
     }),
     onSubmit: (values) => {
@@ -55,6 +56,7 @@ const Signup = () => {
         password: formik.values.password,
         cpassword: formik.values.cpassword,
       };
+      navigate("/login");
       console.log("Registed");
     } catch (error) {
       console.error(error);
