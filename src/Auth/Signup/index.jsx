@@ -41,7 +41,7 @@ const Signup = () => {
       cpassword: yup
         .string()
         .required("Confirm Password is Required")
-        .oneOf([yup.ref("password")], "Must match confirm password"),
+        .oneOf([yup.ref("password"), null], "Password Must match"),
     }),
     onSubmit: (values) => {
       signUp();
