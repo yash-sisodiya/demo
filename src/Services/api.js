@@ -6,7 +6,7 @@ const config = () => ({
   headers: {
     Accept: "application/json",
     "Content-type": "application/json",
-    apikey: "KL8nqS88rQt1tVYAqTd1H889yUrU2o9T",
+    apikey: process.env.REACT_APP_API_KEY,
   },
 });
 
